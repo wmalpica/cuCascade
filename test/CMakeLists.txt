@@ -169,6 +169,7 @@ if(NOT CUCASCADE_TOPOLOGY_ONLY AND CUCASCADE_BUILD_CUDF)
     data/test_remote_converters.cpp
     data/test_remote_io_context.cpp
     data/test_representation_converter.cpp
+    cudf/test_gpu_to_gpu_converter.cpp
     cudf/test_release_table_stream.cpp
     # Main test runner
     unittest.cpp)
