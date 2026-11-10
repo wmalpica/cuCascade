@@ -768,7 +768,11 @@ TEST_CASE("batched footer resolve cancels concurrent completions after the first
   range_fault_policy fault;
   fault.get_response_barrier = max_inflight;
   loopback_range_server server(test_payload(), fault);
-  auto fixture = make_ioctx(server, test_config(max_inflight));
+  auto cfg = test_config(max_inflight);
+  // Every request held at the barrier needs its own connection; otherwise the
+  // test makes progress only after a request timeout and races retry scheduling.
+  cfg.max_connections = max_inflight;
+  auto fixture = make_ioctx(server, cfg);
   std::vector<std::string> paths;
   paths.reserve(path_count);
   for (std::size_t i = 0; i < path_count; ++i) {
